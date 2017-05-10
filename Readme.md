@@ -1,3 +1,20 @@
+[Allan:] 
+这个工程是我从 http://ubilabs.github.com/kd-tree-javascript fork过来的，并且对代码进行
+了一下改造，具体如下：
+1. 原来的kdTree.js里面的内嵌函数太多，难以维护，我将它移出来变成KdTree的成员函数。
+2. 将kdTree.js里面的binaryHeap移出来，单独写成一个类。
+3. 添加里package.json。
+4. 用yarn来管理node_modules（效率比npm要高），你可以用npm install --global yarn来安装一个yarn。
+5. 本工程的examples下面有4个例子，我分别为它们建立 webpack.config.js 和server.js，每个例子都可以独立运行。
+
+具体运行每个sample的步骤：
+1. 安装yarn: npm install --global yarn
+2. 安装所依赖的node modules: yarn install
+3. 运行basic example: yarn spiders, 然后在浏览器中打开http://localhost:8090
+4. 运行colors example: yarn colors, 然后在浏览器中打开http://localhost:8091
+5. 运行map example: yarn map, 然后在浏览器中打开http://localhost:8092
+6. 运行mutable example: yarn mutable, 然后在浏览器中打开http://localhost:8093
+
 # k-d Tree JavaScript Library
 
 A basic but super fast JavaScript implementation of the k-dimensional tree data structure.
