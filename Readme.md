@@ -1,4 +1,5 @@
-[Allan:] 
+# [Allan:]
+
 这个工程是我从 http://ubilabs.github.com/kd-tree-javascript fork过来的，并且对代码进行
 了一下改造，具体如下：
 1. 原来的kdTree.js里面的内嵌函数太多，难以维护，我将它移出来变成KdTree的成员函数。
