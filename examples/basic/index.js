@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var KdTree = require('../../kdTree1.js');
+var KdTree = require('../../kdTree.js');
 
 var fps = 0, fpsSmoothing = 50, now, lastFrame = new Date;
 var ctx, canvas;

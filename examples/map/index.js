@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var KdTree = require('../../kdTree1.js');
+var KdTree = require('../../kdTree.js');
 
 var map, tree;
 var numMarkers = 30;
