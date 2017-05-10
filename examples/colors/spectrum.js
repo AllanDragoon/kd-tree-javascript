@@ -3,6 +3,8 @@
 // Author: Brian Grinstead
 // License: MIT
 // Requires: jQuery, spectrum.css
+var jQuery = require('jquery');
+var $ = jQuery;
 
 (function (window, $, undefined) {
     var defaultOpts = {
@@ -34,7 +36,7 @@
         selectionPalette: []
     },
     spectrums = [],
-    IE = $.browser.msie,
+    IE = undefined, //$.browser.msie,
     replaceInput = [
         "<div class='sp-replacer'>",
             "<div class='sp-preview'></div>",
@@ -634,7 +636,7 @@
         var offset = {};
         var maxHeight = 0;
         var maxWidth = 0;
-        var IE = $.browser.msie;
+        var IE = undefined;//$.browser.msie;
         var hasTouch = ('ontouchstart' in window);
 
         var duringDragEvents = {};
@@ -775,7 +777,7 @@
         }
     });
 
-})(this, jQuery);
+})(window, jQuery);
 
 
 
@@ -1561,4 +1563,4 @@
     // Everything is ready, expose to window
     window.tinycolor = tinycolor;
 
-})(this);
+})(window);
