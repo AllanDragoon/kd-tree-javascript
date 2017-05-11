@@ -7,6 +7,7 @@
 3. 添加里package.json。
 4. 用yarn来管理node_modules（效率比npm要高），你可以用npm install --global yarn来安装一个yarn。
 5. 本工程的examples下面有4个例子，我分别为它们建立 webpack.config.js 和server.js，每个例子都可以独立运行。
+6. 提升了它的_buildTree performance，原来的算法是每次都要去sort point，并且调用array的slice()函数，这样速度比较慢，新方法中我使用快速选择算法以及原位置换来提高性能。
 
 具体运行每个sample的步骤：
 1. 安装yarn: npm install --global yarn
