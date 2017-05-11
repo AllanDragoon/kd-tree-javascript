@@ -18,32 +18,63 @@ var KdTree = function (points, distanceFunc, dimensions) {
     if (!Array.isArray(points)) {
         this._loadTree(points);
     } else {
-        this.root = this._buildTree(points, 0, null);
+        this.root = this._buildTree(points, 0, null, 0, points.length - 1);
     }
 };
 
-KdTree.prototype._buildTree = function (points, depth, parent) {
-    var dimensions = this.dimensions;
-    var dim = depth % dimensions.length,
-        median,
-        node;
+// KdTree.prototype._buildTree = function (points, depth, parent) {
+//     var dimensions = this.dimensions;
+//     var dim = depth % dimensions.length,
+//         median,
+//         node;
 
-    if (points.length === 0) {
+//     if (points.length === 0) {
+//         return null;
+//     }
+//     if (points.length === 1) {
+//         return new Node(points[0], dim, parent);
+//     }
+
+//     points.sort(function (a, b) {
+//         return a[dimensions[dim]] - b[dimensions[dim]];
+//     });
+
+//     median = Math.floor(points.length / 2);
+//     node = new Node(points[median], dim, parent);
+//     node.left = this._buildTree(points.slice(0, median), depth + 1, node);
+//     node.right = this._buildTree(points.slice(median + 1), depth + 1, node);
+
+//     return node;
+// };
+
+KdTree.prototype._buildTree = function (points, depth, parent, startIndex, endIndex) {
+    var length = points.length;
+    if (length <= 0 || startIndex > endIndex) {
         return null;
     }
-    if (points.length === 1) {
-        return new Node(points[0], dim, parent);
+
+    var dimensions = this.dimensions;
+    var dim = depth % dimensions.length; 
+    if (startIndex === endIndex) {
+        return new Node(points[startIndex], dim, parent);
     }
 
-    points.sort(function (a, b) {
-        return a[dimensions[dim]] - b[dimensions[dim]];
-    });
+    function compare(a, b) {
+        var propA = a[dimensions[dim]];
+        var propB = b[dimensions[dim]];
+        if (propA > propB) {
+            return 1;
+        } else if (propA < propB) {
+            return -1;
+        }
+        return 0;
+    }
 
-    median = Math.floor(points.length / 2);
-    node = new Node(points[median], dim, parent);
-    node.left = this._buildTree(points.slice(0, median), depth + 1, node);
-    node.right = this._buildTree(points.slice(median + 1), depth + 1, node);
+    var mid = KdTree._quickSelectMedian(points, compare, startIndex, endIndex);
+    var node = new Node(points[mid], dim, parent);
 
+    node.left = this._buildTree(points, depth + 1, node, startIndex, mid-1);
+    node.right = this._buildTree(points, depth + 1, node, mid+1, endIndex);
     return node;
 };
 
@@ -306,6 +337,40 @@ KdTree.prototype.balanceFactor = function () {
     }
 
     return height(this.root) / (Math.log(count(this.root)) / Math.log(2));
+};
+
+// Credit: Tony Tanzillo
+// http://www.theswamp.org/index.php?topic=44312.msg495808#msg495808
+KdTree._quickSelectMedian = function (points, compare, startIndex, endIndex) {
+    var k = Math.floor((startIndex + endIndex) / 2);
+    var from = startIndex;
+    var to = endIndex;
+    while (from < to) {
+        var r = from;
+        var w = to;
+        var current = points[Math.floor((r + w) / 2)];
+        while (r < w) {
+            if (compare(points[r], current) > -1) {
+                var tmp = points[w];
+                points[w] = points[r];
+                points[r] = tmp;
+                w--;
+            }
+            else {
+                r++;
+            }
+        }
+        if (compare(points[r], current) > 0) {
+            r--;
+        }
+        if (k <= r) {
+            to = r;
+        }
+        else {
+            from = r + 1;
+        }
+    }
+    return k;
 };
 
 module.exports = KdTree;
